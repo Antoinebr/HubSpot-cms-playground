@@ -1,8 +1,3 @@
-
-/* Objects
-Non-cosmetic design patterns including grid and layout classes)
-*/
-
 /*
 
 /* Theme base styles */
@@ -47,12 +42,4 @@ Helper classes with ability to override anything that comes before it
 */
 
 {% include './utilities/_helper.css' %}
-
-
-{% include './theme-overrides.css' %}
-
-
-
-
-
 

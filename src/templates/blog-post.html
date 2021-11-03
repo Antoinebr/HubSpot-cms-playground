@@ -8,22 +8,39 @@
 {% extends './layouts/base.html' %}
 
 {% block body %}
-<div class="body-container body-container--blog-post">
 
-  {# Blog post #}
+
+<!-- module html  -->
+<header style="background: url( {{ content.featured_image  }} ) no-repeat top center fixed  rgb(15 4 220 / 72%); background-size: cover;   background-blend-mode: multiply;"
+class="h-64  p-10 object-cover w-full relative">
+
+    <div class="container mx-auto">
+    
+        <h1 class="text-center text-4xl m-0 absolute top-2/4 left-1/2 text-white" style="transform: translate(-50%, -50%)"> 
+        {{ content.name }}
+         </span> 
+        </h1>
+
+    </div>
+
+</header>
+
+
+<div class="container mx-auto pt-20">
 
   <div class="content-wrapper">
     <article class="blog-post">
-      <h1>{{ content.name }}</h1>
-      <div class="blog-post__meta">
-        <a href="{{ blog_author_url(group.id, content.blog_post_author.slug) }}" rel="author">
-          {{ content.blog_post_author.display_name }}
-        </a>
+
+      <!-- post meta : date / author -->
+      <div class="blog-post__meta md:w-7/12 mx-auto mb-4">
         <time datetime="{{ content.publish_date }}" class="blog-post__timestamp">
           {{ content.publish_date_localized }}
         </time>
       </div>
-      <div class="blog-post__body">
+      <!-- post meta : date / author -->
+
+
+      <div class="blog-post__body  md:w-7/12 mx-auto ">
         {{ content.post_body }}
       </div>
       {% if content.tag_list %}
@@ -39,8 +56,25 @@
         </div>
       {% endif %}
     </article>
+    
+
+    <!-- About the Author -->
+    <section class="border p-2 grid grid-cols-1 md:grid-cols-4 md:w-6/12 mx-auto ">
+
+      <div  class="h-32 rounded-full w-32 m-auto" style="background: url( {{ content.blog_post_author.avatar }} ) no-repeat center center; background-size: cover;"></div>
+
+      <div class="col-span-3">
+        <p class="text-xl font-bold">{{content.blog_post_author.displayName}}</p>
+        <p>{{content.blog_post_author.bio}}</p>
+      </div>
+
+    </section>
+    <!-- About the Author -->
+
+
+
     {% if group.allow_comments %}
-      <div class="blog-comments">
+      <div class="blog-comments mt-10 md:w-4/12 mx-auto " >
         {% module 'blog_comments'
           path='@hubspot/blog_comments',
           label="Blog comments"
@@ -79,11 +113,33 @@
     {% endif %}
   {% endmacro %}
 
-  {% related_blog_posts
-    limit=3,
-    no_wrapper=True,
-    post_formatter="related_posts"
-  %}
+
+
+
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 p-10 pt-20 container mx-auto">
+  
+  {% set rec_posts = blog_recent_posts('default', 3) %}
+
+    {% for rec_post in rec_posts %}
+    
+      <a href="{{rec_post.url}}" class="mb-4 sm:mb-0"> 
+        <article class="border">
+          <div 
+            class="img-container" 
+            style="background-image: url( {{ rec_post.postFeaturedImageIfEnabled  }} );  background-size: cover;"
+          class="h-64 bg-center bg-no-repeat object-cover">
+          </div>
+          <div class="article-container sm:h-auto h-64  p-5">
+            <div class="text-xl font-bold">{{ rec_post.name }}</div>
+            <p>{{rec_post.postSummary}}</p>
+          </div>
+        </article>
+      </a>
+    
+    {% endfor %}
+  
+  </section>
+
 
 </div>
 {% endblock body %}

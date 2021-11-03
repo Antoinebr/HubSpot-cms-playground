@@ -1,0 +1,20 @@
+[
+  {
+    "default": "Hello, world!",
+    "label": "Bold sentence",
+    "locked": false,
+    "name": "bold_sentence",
+    "required": false,
+    "type": "text",
+    "validation_regex": ""
+  },
+  {
+    "default": "Hello, world!",
+    "label": "Light sentence",
+    "locked": false,
+    "name": "light_sentence",
+    "required": false,
+    "type": "text",
+    "validation_regex": ""
+  }
+]

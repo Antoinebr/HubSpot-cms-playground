@@ -1,0 +1,32 @@
+[
+  {
+    "default": "Hello!",
+    "label": "Bold sentence",
+    "locked": false,
+    "name": "bold_sentence",
+    "required": false,
+    "type": "text",
+    "validation_regex": ""
+  },
+  {
+    "default": "world!",
+    "label": "Light sentence",
+    "locked": false,
+    "name": "light_sentence",
+    "required": false,
+    "type": "text",
+    "validation_regex": ""
+  },
+  {
+    "default": "",
+    "label": "Centered ?",
+    "locked": false,
+    "name": "centered",
+    "required": false,
+    "type": "boolean",
+    "display": "checkbox",
+    "validation_regex": "",
+    "inline_help_text" : "Center the module in the page",
+    "help_text" : "Center the module in the page"
+  }
+]

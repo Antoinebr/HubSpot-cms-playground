@@ -1,0 +1,28 @@
+<!--
+  templateType: page
+  isAvailableForNewContent: true
+  label: launchMonitors - single
+  screenshotPath: ../images/template-previews/blog-post.png
+-->
+{% set template_css = '../../css/templates/blog.css' %}
+{% extends './layouts/base.html' %}
+
+{% block body %}
+
+
+  <h1> Should be HubDb stuff </h1>
+
+  {% if dynamic_page_hubdb_row %}        
+    <h1>{{ dynamic_page_hubdb_row.hs_name }}</h1>
+    <h2>{{ dynamic_page_hubdb_row.name }}</h2>
+    <h3>{{ dynamic_page_hubdb_row.role }}</h3>
+  {% elif dynamic_page_hubdb_table_id %}
+    <ul>
+    {% for row in hubdb_table_rows(dynamic_page_hubdb_table_id) %}
+        <li><a href="{{ request.path }}/{{ row.hs_path }}">{{ row.hs_name }}</a></li>                
+    {% endfor %}
+    </ul>
+  {% endif %}
+
+
+{% endblock body %}

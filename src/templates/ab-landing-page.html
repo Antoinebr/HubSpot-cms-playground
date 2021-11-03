@@ -1,0 +1,93 @@
+<!--
+  templateType: page
+  isAvailableForNewContent: true
+  label: AB Landing page
+  screenshotPath: ../images/template-previews/landing-page.png
+-->
+{% extends './layouts/base.html' %}
+
+{% block header %}
+{% global_partial path='./partials/header-custom-antoine.html' %}
+{% endblock header %}
+
+{% block body %}
+
+
+<section class="grid grid-cols-1 md:grid-cols-2 gap-4 p-10 pt-20 container mx-auto">
+
+  <div>
+
+     <div>
+        {% dnd_area "top_content" %}
+
+          <!-- generates an empty drag and drop area drop-section -->
+
+        {% end_dnd_area %}
+      </div>
+
+  </div>
+
+
+
+  <div>
+
+    <img src="{{get_asset_url('../images/fs-trackman.jpg')}}" height="200" class=" block m-auto w-8/12">
+
+  </div>
+
+
+      
+</section>
+
+
+
+  {% dnd_area 'dnd_area'%}  
+
+    {% dnd_section vertical_alignment='TOP' %}
+        {% dnd_module
+        path='../modules/hero-banner.module',
+        width=12
+        %}
+        {% end_dnd_module %}
+    {% end_dnd_section %}
+
+  {% end_dnd_area %}
+
+
+
+ 
+
+<section class="grid grid-cols-1 md:grid-cols-3 gap-4 p-10 pt-20 container mx-auto">
+  
+  {% set rec_posts = blog_recent_posts('default', 3) %}
+
+    {% for rec_post in rec_posts %}
+    
+      <a href="{{rec_post.url}}">
+        <article class="border">
+          <div 
+            class="img-container" 
+            style="background-image: url( {{ rec_post.postFeaturedImageIfEnabled  }} );  background-size: cover;"
+          class="h-64 bg-center bg-no-repeat object-cover">
+          </div>
+          <div class="article-container sm:h-auto h-64  p-5">
+            <div class="text-xl font-bold">{{ rec_post.name }}</div>
+            <p>{{rec_post.postSummary}}</p>
+          </div>
+        </article>
+      </a>
+    
+    {% endfor %}
+  
+</section>
+
+
+
+
+
+
+
+
+
+{% endblock body %}
+
