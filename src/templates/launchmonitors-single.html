@@ -7,22 +7,74 @@
 {% set template_css = '../../css/templates/blog.css' %}
 {% extends './layouts/base.html' %}
 
+
 {% block body %}
 
 
-  <h1> Should be HubDb stuff </h1>
+  {% set queryparam = "" %}
 
-  {% if dynamic_page_hubdb_row %}        
-    <h1>{{ dynamic_page_hubdb_row.hs_name }}</h1>
-    <h2>{{ dynamic_page_hubdb_row.name }}</h2>
-    <h3>{{ dynamic_page_hubdb_row.role }}</h3>
-  {% elif dynamic_page_hubdb_table_id %}
-    <ul>
-    {% for row in hubdb_table_rows(dynamic_page_hubdb_table_id) %}
-        <li><a href="{{ request.path }}/{{ row.hs_path }}">{{ row.hs_name }}</a></li>                
-    {% endfor %}
-    </ul>
+
+  {% if request.path == "/launch-monitors/lessThan=300" %}
+      {% set queryparam = queryparam ~ "&price__gt=1000" %}
+  {% endif %}
+  {% if request.path == "/team-members/location/nh" %}
+      {% set queryparam = queryparam ~ "&location=2" %}
+  {% endif %}
+  {% if request.path == "/team-members/location/pa" %}
+      {% set queryparam = queryparam ~ "&location=3" %}
   {% endif %}
 
+
+  {{queryparam|pprint}}
+
+
+  <div class="md:w-7/12 mx-auto ">
+
+    
+    <h1 class="text-2xl font-bold"> Discover / <span class="font-light"> our products </span> </h1>
+
+
+    <p>Lorem ipsum dolor sit met, qui at desert mandamus, adduce ullum apeirian mea at. Eu mel vide saltando vituperata, sonet quidam deterruisset te qui. Te cum vivendum explicate abhorrent. Id venom argumentum vel. Ut lorem bocent hendrerit eam.</p>
+
+    <h1 class="text-xl font-bold"> Filter / <span class="font-light"> our products </span> </h1>
+    <a href="{{request.path}}/moreThan=1000" class="border text-center p-3 pl-5 pr-5 "> More than 1000€ </a>
+
+    <hr class="mt-8 mb-8"/>
+
+
+    {% if dynamic_page_hubdb_row %}        
+      <h1>{{ dynamic_page_hubdb_row.hs_name }}</h1>
+      <h2>{{ dynamic_page_hubdb_row.name }}</h2>
+      <h3>{{ dynamic_page_hubdb_row.role }}</h3>
+    {% elif dynamic_page_hubdb_table_id %}
+      {% for row in hubdb_table_rows(dynamic_page_hubdb_table_id,"price__gt=1000") %}
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border p-4 mb-4">
+
+            <div>
+              
+
+              <h2 class="text-xl font-bold "> {{row.brand}} / <span class="font-light"> {{row.name}} </span> </h2>
+              <p>Brand : {{row.brand}} </p>
+              <p>Name : {{row.name}}</p>
+              <p>RadarType : {{row.radar_type}}</p>
+              <p>Price : {{row.price}}</p>
+              <p>ProductionYear : {{row.production_year}}</p>
+              <p>Club Data{{row.club_data}}</p>
+
+              <a href="{{ request.path }}/{{ row.hs_path }}" class="border pl-4 pr-4 pt-2 pb-2"> Learn more </a>
+
+
+            </div>
+
+            <div>
+              <img src="{{row.pic.url}}">
+            </div>
+
+          </div>                
+      {% endfor %}
+    {% endif %}
+
+</div>
 
 {% endblock body %}
