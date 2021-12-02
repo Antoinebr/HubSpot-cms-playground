@@ -8,6 +8,37 @@ For a page with the path : ``` src/templates/ab-landing-page.html ```
 <img src="{{get_asset_url('../images/fs-trackman.jpg')}}" height="200" class=" block m-auto w-8/12">
 ```
 
+## Make content editable without using a module 
+
+Instead of creating simple raw content like :
+
+```
+<p>Lorem ipsum dolor sit met, qui at desert mandamus, adduce ullum apeirian mea at. Eu mel vide saltando vituperata, sonet quidam deterruisset te qui. Te cum vivendum explicate abhorrent. Id venom argumentum vel. Ut lorem bocent hendrerit eam.</p>
+```
+
+It's better to use a widget block like :
+
+```
+    {% widget_block rich_text "intro_paragraph" overrideable=True, label='intro_paragraph'  %}
+      {% widget_attribute "html" %}
+        <p>Lorem ipsum dolor sit met, qui at desert mandamus, adduce ullum apeirian mea at. Eu mel vide saltando vituperata, sonet quidam deterruisset te qui. Te cum vivendum explicate abhorrent. Id venom argumentum vel. Ut lorem bocent hendrerit eam.</p>
+      {% end_widget_attribute %}
+    {% end_widget_block %}
+```
+
+The content is now editable in the editor see : http://recordit.co/4TdPMknzRc
+
+widget_block is now deprecated use instead: 
+
+```jinja
+{% module_block module "my_rich_text_module" path="/My Rich Text Field Module",
+  label="My Rich Text Field Module" 
+%}
+    {% module_attribute "rich_text_field_variable" %}
+       <div>My HTML block</div>
+    {% end_module_attribute %}
+{% end_module_block %}
+```
 
 ## Create a custom module
 
@@ -76,6 +107,20 @@ with
 ```
 
 I overided the default values see : https://recordit.co/BkxSgdLK9q
+
+
+### Create repeatable fields in a Module 
+
+It's possible to create repeatable fields by adjusting the ```fields.json``` file. But it's easier to create the fields throught the design manager. 
+
+To do so : 
+
+1 - Create the fields 
+2 - create a group and add the fields to the group 
+3 - In the group option activate "repeater options" 
+4 - In the group on top user Hubl vatiable name click on copy then "copy snippet"
+
+Follow the gif for more details : https://recordit.co/wOUcGAjqNz
 
 
 

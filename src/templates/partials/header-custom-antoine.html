@@ -23,7 +23,12 @@
 
 
   <img src="{{ get_asset_url('../../images/lm-logo.png') }}" width="800" class=" block m-auto max-w-full">
-  <p class="text-center text-white"> Tips and tricks about launch monitors ! 28-10-2021-14:42:31 </p>
+  
+  {% widget_block rich_text "intro_paragraph" overrideable=True, label='intro_paragraph'  %}
+    {% widget_attribute "html" %}
+      <p class="text-center text-white"> Tips and tricks about launch monitors ! 28-10-2021-14:42:31 </p> 
+    {% end_widget_attribute %}
+  {% end_widget_block %}
 
 
 </header>
