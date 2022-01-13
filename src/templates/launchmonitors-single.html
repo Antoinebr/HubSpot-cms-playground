@@ -8,52 +8,125 @@
 {% extends './layouts/base.html' %}
 
 
+{% set debug = false %}
 {% set queryparam = "" %}
 
-{% if request.path == "/launch-monitors/lessThan=300" %}
-    {% set queryparam = queryparam ~ "&price__gt=1000" %}
+{% if request.query is containing "moreThan=1000" %}
+    {% set queryparam = "price__gt=1000" %}
 {% endif %}
-{% if request.path == "/team-members/location/nh" %}
-    {% set queryparam = queryparam ~ "&location=2" %}
+{% if request.query is containing "clubData=true" %}
+    {% set queryparam = "club_data=true" %}
 {% endif %}
-{% if request.path == "/team-members/location/pa" %}
-    {% set queryparam = queryparam ~ "&location=3" %}
-{% endif %}
+
+
+
 
 
 {% block body %}
 
+  <div class="h-32"> 
+    {% dnd_area 'dnd_header'%}  
 
-  {{queryparam|pprint}}
+      {% dnd_section vertical_alignment='TOP' %}
+          {% dnd_module
+          path='../modules/menu.module',
+          width=12
+          %}
+          {% end_dnd_module %}
+      {% end_dnd_section %}
 
+    {% end_dnd_area %}
+  </div>
+
+  {% if debug %}
+    <pre> 
+    request
+    {{request|pprint}}
+    </pre>
+
+
+    <pre>
+    request.query
+    {{request.query|pprint}}
+    </pre>
+
+
+    <pre>
+    request.path
+    {{request.path|pprint}}
+    </pre>
+
+    <pre>
+    queryparam :
+    {{queryparam|pprint}}
+    </pre>
+  {% endif %}
 
   <div class="md:w-7/12 mx-auto ">
 
-    
-    <h1 class="text-2xl font-bold"> Discover / <span class="font-light"> our products </span> </h1>
 
 
 
-    {% widget_block rich_text "intro_paragraph" overrideable=True, label='intro_paragraph'  %}
-      {% widget_attribute "html" %}
-        <p>Lorem ipsum dolor sit met, qui at desert mandamus, adduce ullum apeirian mea at. Eu mel vide saltando vituperata, sonet quidam deterruisset te qui. Te cum vivendum explicate abhorrent. Id venom argumentum vel. Ut lorem bocent hendrerit eam.</p>
-      {% end_widget_attribute %}
-    {% end_widget_block %}
+    {# We only display the paragraph when we are on the archive page of the CPT #}
+    {% if dynamic_page_hubdb_row is undefined %}    
 
-    
+        <h1 class="text-2xl font-bold"> Discover / <span class="font-light"> our products : </span> </h1>
 
-    <h1 class="text-xl font-bold"> Filter / <span class="font-light"> our products </span> </h1>
-    <a href="{{request.path}}/moreThan=1000" class="border text-center p-3 pl-5 pr-5 "> More than 1000€ </a>
+        {% widget_block rich_text "intro_paragraph" overrideable=True, label='intro_paragraph'  %}
+          {% widget_attribute "html" %}
+            <p>Lorem ipsum dolor sit met, qui at desert mandamus, adduce ullum apeirian mea at. Eu mel vide saltando vituperata, sonet quidam deterruisset te qui. Te cum vivendum explicate abhorrent. Id venom argumentum vel. Ut lorem bocent hendrerit eam.</p>
+          {% end_widget_attribute %}
+        {% end_widget_block %}
 
-    <hr class="mt-8 mb-8"/>
+        
+
+
+        <h1 class="text-xl font-bold"> Filter / <span class="font-light"> our products </span> </h1>
+
+        <a href="{{request.path}}" class="border text-center p-3 pl-5 pr-5 "> All products </a>
+
+        <a href="{{request.path}}?moreThan=1000" class="border text-center p-3 pl-5 pr-5 {{request.query is containing "moreThan=1000" ? "bg-gray-200" : ""}}"> More than 1000€ </a>
+
+        <a href="{{request.path}}?clubData=true" class="border text-center p-3 pl-5 pr-5 {{request.query is containing "clubData=true" ? "bg-gray-200" : ""}}"> Club Data only </a>
+
+      <hr class="mt-8 mb-8"/>
+
+    {% endif %}
+
+
 
 
     {% if dynamic_page_hubdb_row %}        
-      <h1>{{ dynamic_page_hubdb_row.hs_name }}</h1>
-      <h2>{{ dynamic_page_hubdb_row.name }}</h2>
-      <h3>{{ dynamic_page_hubdb_row.role }}</h3>
+
+
+        <h1>{{ dynamic_page_hubdb_row.hs_name }}</h1>
+        <h2>{{ dynamic_page_hubdb_row.name }}</h2>
+        <h3>{{ dynamic_page_hubdb_row.role }}</h3>
+  
+        <div>
+          <img src="{{dynamic_page_hubdb_row.pic.url}}">
+        </div>
+  
+  
+        <p>Brand : {{dynamic_page_hubdb_row.brand}} </p>
+        <p>Name : {{dynamic_page_hubdb_row.name}}</p>
+        <p>RadarType : {{dynamic_page_hubdb_row.radar_type}}</p>
+        <p>Price : {{dynamic_page_hubdb_row.price}}</p>
+        <p>ProductionYear : {{dynamic_page_hubdb_row.production_year}}</p>
+        <p>Club Data{{dynamic_page_hubdb_row.club_data}}</p>
+  
+
     {% elif dynamic_page_hubdb_table_id %}
-      {% for row in hubdb_table_rows(dynamic_page_hubdb_table_id,"price__gt=1000") %}
+
+      {# 
+        
+        To filter products : 
+        for row in hubdb_table_rows(dynamic_page_hubdb_table_id,"price__gt=1000")
+
+        In this example I'm only showing the product which cost more than 1K
+      
+      #}
+      {% for row in hubdb_table_rows(dynamic_page_hubdb_table_id,queryparam) %}  
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border p-4 mb-4">
 
@@ -66,7 +139,7 @@
               <p>RadarType : {{row.radar_type}}</p>
               <p>Price : {{row.price}}</p>
               <p>ProductionYear : {{row.production_year}}</p>
-              <p>Club Data{{row.club_data}}</p>
+              <p>Club Data : {{row.club_data is truthy ? "yes" : "no"}} </p>
 
               <a href="{{ request.path }}/{{ row.hs_path }}" class="border pl-4 pr-4 pt-2 pb-2"> Learn more </a>
 

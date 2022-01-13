@@ -299,6 +299,33 @@ To pick a specific template follow the gif : http://recordit.co/JDzoP6TzKz
 src/templates/blog-post.html
 ```
 
+### Registration template and sepecific templates 
+
+It's possible to overide default template by creating them in the design manager like so : https://recordit.co/wtiBpfMeLt
+
+The default url for the registration page is : 
+
+https://hs.antoinebrossault.com/_hcms/mem/register
+
+
+**To Link** the custom template to the site you have to go in the CMS settings : https://recordit.co/CLyXw64m6M 
+to tell the CMS to use a custom template. 
+
+PS : changes to the template in local are available right away on the live site ( if you ran ``` hs watch src my-theme ```)
+
+
+### sytem teamplates 
+
+Customize the 404 etc... 
+
+If I update the 404 in this file : 
+
+```
+src/templates/system/404.html
+``` 
+
+I have to activate in in the setting to make it work see : https://recordit.co/zF1uwPXK0r
+
 
 ## Hubl functions 
 
@@ -340,7 +367,7 @@ Get the latest 5 posts :
 
 ## HubDB Dynamic page ( Custom Post Type style )
 
-Create a table with HubDB and be sure to put the "Enable creation of dynbamic pages using row data" ON. 
+Create a table with HubDB and be sure to put the "Enable creation of dynamic pages using row data" ON. 
 
 Then Create a template in the theme, see in ``` src/templates/launchmonitors-single.html ```
 

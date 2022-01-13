@@ -1,0 +1,39 @@
+<!--
+  templateType: section
+  label: Form
+  isAvailableForNewContent: true
+  screenshotPath: ../images/section-previews/pricing.png
+  description: "AB Form"
+-->
+
+<div class="container p-20">
+
+{% dnd_section %}
+  {% dnd_column %}
+    {% dnd_row %}
+
+      {% dnd_module
+        path='../modules/ab-heading.module',
+        bold_sentence="Contact Us",
+        light_sentence="ask a question",
+        alignement="center"
+      %}
+      {% end_dnd_module %}
+    {% end_dnd_row %}
+
+    {% dnd_row %}
+
+      {% dnd_module
+      path='@hubspot/rich_text',
+      html='<p class="text-center"> !!!!!! 28-10-2021-21:39:52  Lorem ipsum dolor sit met, qui at desert mandamus, adduce ullum apeirian mea at. Eu mel vide saltando vituperata, sonet quidam deterruisset te qui. Te cum vivendum explicate abhorrent. Id venom argumentum vel. Ut lorem bocent hendrerit eam.</p> ',
+      %}
+      {% end_dnd_module %}
+    
+    {% end_dnd_row %}
+
+
+
+  {% end_dnd_column %}
+{% end_dnd_section %}
+
+</div>
